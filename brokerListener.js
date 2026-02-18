@@ -83,7 +83,6 @@ client.on('message', async (topic, message) => {
       title,
       clientTimestampMs: now.getTime(),
       receivedAt: serverTimestamp(),
-      sourceTopic: incomingTopic
     });
     } catch(err){
         console.error("failed to process message:", err.message)
