@@ -44,7 +44,7 @@ const COLLECTION = "sensordata";
 
 
 //ställ in korrekt topic
-const topic = "ik1332/#"
+const topic = "ik1332/proj/sensors/hiss1/data"
 
 client.on ('connect', () => {
     console.log('Connected to MQTT broker!')
