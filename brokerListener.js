@@ -40,7 +40,7 @@ function timestampTitle(date) {
   return `${yyyy}-${mm}-${dd}_${hh}-${mi}-${ss}Z`;
 }
 
-const COLLECTION = "sensordata";
+const COLLECTION = "sensor_readings";
 
 
 //ställ in korrekt topic
@@ -84,6 +84,9 @@ client.on('message', async (topic, message) => {
       clientTimestampMs: now.getTime(),
       receivedAt: serverTimestamp(),
     });
+
+        console.log("Wrote Firestore doc:", `${COLLECTION}/${title}`);
+
     } catch(err){
         console.error("failed to process message:", err.message)
     }
