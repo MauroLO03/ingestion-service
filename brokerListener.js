@@ -81,7 +81,6 @@ client.on('message', async (topic, message) => {
     await setDoc(readingRef, {
       ...jsonData,
       title,
-      clientTimestampMs: now.getTime(),
       receivedAt: serverTimestamp(),
     });
 
