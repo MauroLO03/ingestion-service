@@ -1,6 +1,6 @@
 //npm insatll mqtt!!!!
 import { initializeApp } from "firebase/app"
-import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore"
+import { getFirestore, collection, addDoc, doc, serverTimestamp } from "firebase/firestore"
 import mqtt from 'mqtt'
 import dotenv from "dotenv"
 dotenv.config()
