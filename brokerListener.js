@@ -27,11 +27,20 @@ const client = mqtt.connect(brokerUrl, {
 })
 
 
-
+function timestampTitle(date) {
+  const yyyy = date.getUTCFullYear();
+  const mm = pad2(date.getUTCMonth() + 1);
+  const dd = pad2(date.getUTCDate());
+  const hh = pad2(date.getUTCHours());
+  const mi = pad2(date.getUTCMinutes());
+  const ss = pad2(date.getUTCSeconds());
+  const ms = String(date.getUTCMilliseconds()).padStart(3, "0");
+  return `${yyyy}-${mm}-${dd}_${hh}-${mi}-${ss}Z`;
+}
 
 
 //ställ in korrekt topic
-const topic = "ik1332/proj/sensors"
+const topic = "ik1332/#"
 
 client.on ('connect', () => {
     console.log('Connected to MQTT broker!')
@@ -52,9 +61,15 @@ client.on('message', async (topic, message) => {
         const rawData = message.toString()
         const jsonData= JSON.parse(rawData)
 
+        const now = new Date();
+        const title = timestampTitle(now);
+        const readingRef = doc(db, COLLECTION, title);
+
+
         //lägger till i db
         const docRef = await addDoc(collection(db, "sensor_readings"), {
             ...jsonData,
+            clientTimestampMs: now.getTime(),
             receivedAt: serverTimestamp(),
             sourceTopic: topic
         })
