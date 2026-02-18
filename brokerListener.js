@@ -71,12 +71,20 @@ client.on('message', async (topic, message) => {
 
 
         //lägger till i db
+        /*
         const docRef = await addDoc(collection(db, "sensor_readings"), {
             ...jsonData,
             clientTimestampMs: now.getTime(),
             receivedAt: serverTimestamp(),
             sourceTopic: topic
-        })
+        })*/
+    await setDoc(readingRef, {
+      ...jsonData,
+      title,
+      clientTimestampMs: now.getTime(),
+      receivedAt: serverTimestamp(),
+      sourceTopic: incomingTopic
+    });
     } catch(err){
         console.error("failed to process message:", err.message)
     }
