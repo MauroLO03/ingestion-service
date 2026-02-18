@@ -40,6 +40,8 @@ function timestampTitle(date) {
   return `${yyyy}-${mm}-${dd}_${hh}-${mi}-${ss}Z`;
 }
 
+const COLLECTION = "sensordata";
+
 
 //ställ in korrekt topic
 const topic = "ik1332/#"
