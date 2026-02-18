@@ -25,7 +25,9 @@ const client = mqtt.connect(brokerUrl, {
     username: process.env.MQTT_USERNAME,
     password: process.env.MQTT_PASSWORD
 })
-
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
 
 function timestampTitle(date) {
   const yyyy = date.getUTCFullYear();
