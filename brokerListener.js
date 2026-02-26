@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, setDoc, doc, serverTimestamp } from "firebase/firestore";
+import { getFirestore, setDoc, doc, serverTimestamp, getDoc } from "firebase/firestore";
 import mqtt from "mqtt";
 import dotenv from "dotenv";
 dotenv.config();
@@ -101,15 +101,22 @@ client.on("message", async (topic, message) => {
         sourceTopic: topic,
       });
 
-      // clear the alarm
-      await setDoc(
-        alarmRef,
-        {
-          floor: 0
-        },
-        { merge: true }
-      );
+        // Check current alarm state
+        const alarmSnap = await getDoc(alarmRef);
 
+        if (alarmSnap.exists()) {
+        const current = alarmSnap.data();
+
+        if (current.floor === -1) {
+            await setDoc(
+            alarmRef,
+            { floor: 0 },
+            { merge: true }
+            );
+
+            console.log("Alarm cleared (was stuck)");
+        }
+        }
       console.log(`Wrote reading: ${COLLECTIONS.readings}/${title}`);
       console.log(`Alarm set FALSE: ${COLLECTIONS.alarms}/${ELEVATOR_ID}`);
       return;
